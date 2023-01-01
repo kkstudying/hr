@@ -8,3 +8,18 @@ export function login(data) {
     data
   })
 }
+// 获取当前登录用户基本资料
+export function getProfile() {
+  return request({
+    method: 'post',
+    url: '/sys/profile'
+  })
+}
+
+// 根据id获取员工详细信息
+export function getUserDetailById(id) {
+  return request({
+    methos: 'get',
+    url: '/sys/user/' + id
+  })
+}

@@ -1,4 +1,4 @@
-import { login } from '@/api/user'
+import { login, getProfile,getUserDetailById } from '@/api/user'
 import { getToken } from '@/utils/auth'
 const state = {
   // 存放数据
@@ -15,15 +15,27 @@ const mutations = {
   },
   setUserInfo(state, newUserInfo) {
     state.userInfo = newUserInfo
+  },
+  logout(state) {
+    localStorage.removeItem('token')
+    state.token = ''
+    state.userInfo = {}
   }
 }
 const actions = {
   async login(store, loginForm) {
+    console.log(11111)
     const res = await login(loginForm)
     store.commit('setToken', res)
   },
-  getUserInfo(store){
-    
+  async getUserInfo(store) {
+    const res = await getProfile()
+    const detail = await getUserDetailById(res.userId)
+    console.log(res)
+    store.commit('setUserInfo', {
+      ...res,
+      ...detail
+    })
   }
 }
 

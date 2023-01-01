@@ -7,6 +7,10 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next('/')
     } else {
+      // 为了不需要在每个用到的页面重新调用获取用户数据
+      if (Object.keys(store.state.user.userInfo).length === 0) {
+        store.dispatch('user/getUserInfo')
+      }
       next()
     }
   } else {
