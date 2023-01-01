@@ -1,24 +1,10 @@
 import request from '@/utils/request'
 
+// 暴露一个登陆函数，在函数中返回真正的登录请求
 export function login(data) {
   return request({
-    url: '/vue-admin-template/user/login',
     method: 'post',
+    url: '/sys/login',
     data
-  })
-}
-
-export function getInfo(token) {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
-  })
-}
-
-export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
   })
 }

@@ -3,18 +3,20 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">
+          iHRM后台登陆系统
+        </h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="mobile"
+          v-model="loginForm.mobile"
+          placeholder="mobile"
+          name="mobile"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -41,11 +43,11 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        <span style="margin-right:20px;">账号: 13800000002</span>
+        <span> 密码: 123456</span>
       </div>
 
     </el-form>
@@ -53,33 +55,24 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-
+// import { login } from '@/api/user'
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        mobile: '13800000002',
+        password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        mobile: [
+          { require: true, message: '该项不能为空', trigger: 'blur' },
+          { pattern: /^1[3-9][0-9]{9}$/, messagte: '请输入正确手机号', trigger: 'blur' }
+        ],
+        password: [
+          { require: true, message: '该项不能为空', trigger: 'blur' },
+          { min: 6, max: 12, message: '密码为6-12位之间', trigger: 'blur' }
+        ]
       },
       loading: false,
       passwordType: 'password',
@@ -105,21 +98,15 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+    async handleLogin() {
+      try {
+        await this.$refs.loginForm.validate()
+        await this.$store.dispatch('user/login', this.loginForm)
+        this.$message.success('登陆成功')
+        this.$router.push('/')
+      } catch (error) {
+        console.log('错误处理')
+      }
     }
   }
 }
@@ -134,8 +121,11 @@ $light_gray:#fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
+  .login-container input{
     color: $cursor;
+  }
+ .login-container .el-input input{
+    color: black;
   }
 }
 
@@ -152,22 +142,36 @@ $cursor: #fff;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      color: black;
       height: 47px;
       caret-color: $cursor;
+      &::-webkit-input-placeholder{
+        color: rgb(118, 76, 39);
+      }
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        // box-shadow: 0 0 0px 1000px $bg inset !important;
+        // -webkit-text-fill-color: $cursor !important;
+        transition-delay:99999s;
+        transition:color 99999s ease-out,background-color 99999s ease-out;
       }
     }
   }
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 5px;
     color: #454545;
+  }
+  .el-form-item__error{
+    color:rgb(1, 1, 1)
+  }
+  .loginBtn{
+    background-color: black;
+    height: 64px;
+    line-height: 32px;
+    font-size: 24px;
   }
 }
 </style>
@@ -180,7 +184,9 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  // background-color: $bg;
+  background: url('~@/assets/common/login-logo.jpg');
+  background-size: cover;
   overflow: hidden;
 
   .login-form {
@@ -194,7 +200,7 @@ $light_gray:#eee;
 
   .tips {
     font-size: 14px;
-    color: #fff;
+    color: black;
     margin-bottom: 10px;
 
     span {
@@ -216,11 +222,15 @@ $light_gray:#eee;
     position: relative;
 
     .title {
-      font-size: 26px;
-      color: $light_gray;
+      font-size: 46px;
+      color: black;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+      img{
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 

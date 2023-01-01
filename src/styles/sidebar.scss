@@ -27,6 +27,8 @@
 
     .scrollbar-wrapper {
       overflow-x: hidden !important;
+      background: url('~@/assets/common/login-logo.jpg');
+      background-size: cover;
     }
 
     .el-scrollbar__bar.is-vertical {
@@ -66,14 +68,37 @@
       border: none;
       height: 100%;
       width: 100% !important;
+      a{
+        li{
+          .svg-icon{
+            color:#fff;
+            font-size: 18px;
+            vertical-align:hiddle;
+            .icon{
+              color:#fff;
+            }
+            &:hover{
+              .svg-icon{
+                color:#794e2b
+              }
+              span{
+                color{
+                  color:#744d2d
+                }
+              }
+            }
+          }
+        }
+      }
     }
 
     // menu hover
     .submenu-title-noDropdown,
     .el-submenu__title {
       &:hover {
-        background-color: $menuHover !important;
+        background-color: rgb(125, 80, 45) !important;
       }
+      color: #744d2d;
     }
 
     .is-active>.el-submenu__title {
