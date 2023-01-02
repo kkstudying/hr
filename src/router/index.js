@@ -30,6 +30,15 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+import settingRouter from './modules/setting'
+import approvalsRouter from './modules/approvals'
+import departmentsRouter from './modules/departments'
+import attendancesRouter from './modules/attendances'
+import employeesRouter from './modules/employees'
+import permissionRouter from './modules/permission'
+import salarysRouter from './modules/salarys'
+import socialRouter from './modules/social'
+
 export const constantRoutes = [
   {
     path: '/test',
@@ -58,7 +67,14 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
+  settingRouter,
+  approvalsRouter,
+  departmentsRouter,
+  employeesRouter,
+  permissionRouter,
+  attendancesRouter,
+  salarysRouter,
+  socialRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
