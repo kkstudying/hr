@@ -8,7 +8,7 @@ export default {
       component: () => import('@/views/approvals/index'),
       meta: {
         title: '审批',
-        icon: 'table'
+        icon: 'tree-table'
       }
     }
   ]

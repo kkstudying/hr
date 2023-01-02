@@ -8,7 +8,7 @@ export default {
       component: () => import('@/views/salarys/index'),
       meta: {
         title: '工资',
-        icon: 'table'
+        icon: 'money'
       }
     }
   ]

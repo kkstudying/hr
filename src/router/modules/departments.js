@@ -8,7 +8,7 @@ export default {
       component: () => import('@/views/departments/index'),
       meta: {
         title: '部门',
-        icon: 'table'
+        icon: 'tree'
       }
     }
   ]

@@ -8,7 +8,7 @@ export default {
       component: () => import('@/views/permission/index'),
       meta: {
         title: '权限',
-        icon: 'table'
+        icon: 'lock'
       }
     }
   ]

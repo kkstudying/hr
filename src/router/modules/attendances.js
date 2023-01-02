@@ -8,7 +8,7 @@ export default {
       component: () => import('@/views/attendances/index'),
       meta: {
         title: '考勤',
-        icon: 'table'
+        icon: 'skill'
       }
     }
   ]
