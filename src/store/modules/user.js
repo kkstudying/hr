@@ -26,6 +26,7 @@ const actions = {
   async login(store, loginForm) {
     console.log(11111)
     const res = await login(loginForm)
+    localStorage.setItem('loginTime', Date.now())
     store.commit('setToken', res)
   },
   async getUserInfo(store) {
