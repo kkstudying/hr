@@ -1,7 +1,7 @@
 // 全局前置路由守卫 beforeeach
 import router from '@/router'
 import store from '@/store'
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
 //   由token就放行
   if (store.state.user.token) {
     if (to.path === '/login') {
@@ -9,7 +9,7 @@ router.beforeEach((to, from, next) => {
     } else {
       // 为了不需要在每个用到的页面重新调用获取用户数据
       if (Object.keys(store.state.user.userInfo).length === 0) {
-        store.dispatch('user/getUserInfo')
+        await store.dispatch('user/getUserInfo')
       }
       next()
     }

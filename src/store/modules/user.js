@@ -1,4 +1,4 @@
-import { login, getProfile,getUserDetailById } from '@/api/user'
+import { login, getProfile, getUserDetailById } from '@/api/user'
 import { getToken } from '@/utils/auth'
 const state = {
   // 存放数据
