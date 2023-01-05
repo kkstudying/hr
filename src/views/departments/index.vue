@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { getDepts } from '@/api/departments'
 import TreeTools from './components/tree-tools.vue'
 export default {
   components: { TreeTools },
@@ -33,33 +34,27 @@ export default {
         name: '传智播客',
         manager: '负责人'
       },
-      depts: [
-        {
-          name: '财务部',
-          manager: '张三'
-        },
-        {
-          name: '技术部',
-          manager: '张三',
-
-          children: [
-            {
-              name: 'java研发',
-              manager: '张三'
-
-            },
-            {
-              name: '前端研发',
-              manager: '张三'
-
-            }
-          ]
-        },
-        {
-          name: '人事部',
-          manager: '李四'
+      depts: []
+    }
+  },
+  created() {
+    this.getDepts()
+  },
+  methods: {
+    async getDepts() {
+      const res = await getDepts()
+      console.log(res)
+      this.depts = this.listToTreeData(res.depts, '')
+    },
+    listToTreeData(list, id) {
+      const res = []
+      list.forEach(element => {
+        if (element.pid === id) {
+          element.children = this.listToTreeData(list, element.id)
+          res.push(element)
         }
-      ]
+      })
+      return res
     }
   }
 }
