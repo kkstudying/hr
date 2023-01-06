@@ -41,6 +41,20 @@ Vue.directive('fiximg', {
   }
 })
 
+// 过滤器创建
+// Vue。filter(名字，函数)
+Vue.filter('formatDate', oldVal => {
+  return oldVal.split('T')[0]
+})
+
+// 如果存在一个封装过滤函数的文件
+// import * as MyFilters from '@/filters'
+// console.log(MyFilters)
+// for in 遍历的是index，for of 遍历的是value
+// for (const key in MyFilters) {
+//   Vue.filter(key, MyFilters[key])
+// }
+
 new Vue({
   el: '#app',
   router,
