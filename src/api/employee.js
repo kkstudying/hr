@@ -19,3 +19,11 @@ export function getDeptsDetailById(id) {
     url: `/company/department/${id}`
   })
 }
+
+// 简单获取员工列表
+export function getEmployee(params) {
+  return request({
+    url: '/sys/user',
+    params
+  })
+}
