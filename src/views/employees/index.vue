@@ -15,10 +15,20 @@
         <el-table-column label="序号" sortable="" type="index" />
         <el-table-column label="姓名" prop="username" sortable="" />
         <el-table-column label="工号" prop="workNumber" sortable="" />
-        <el-table-column label="聘用形式" prop="formOfEmployment" sortable="" />
+        <el-table-column label="聘用形式" prop="formOfEmployment" :formatter="formatEmployment" sortable="" />
         <el-table-column label="部门" prop="departmentName" sortable="" />
         <el-table-column label="入职时间" prop="timeOfEntry" sortable="" />
-        <el-table-column label="账户状态" prop="enableState" sortable="" />
+        <el-table-column label="账户状态" prop="enableState" sortable="">
+          <template v-slot="scope">
+            <!-- 作用域插槽可以在template上定义一个对象，接收所有子组件回传回来的数据，一般这个对象叫scope -->
+            <el-switch
+              v-model="scope.row.enableState"
+              :active-value="1"
+              :inactive-value="2"
+              disabled
+            />
+          </template>
+        </el-table-column>
         <el-table-column label="操作" sortable="" fixed="right" width="280" />
         <template>
           <el-button type="text" size="small">查看</el-button>
@@ -74,6 +84,20 @@ export default {
     currentChange(newPage) {
       this.pageSetting.page = newPage
       this.loadPage()
+    },
+    formatEmployment(row, col, cell, index) {
+      // if (Number(cell) === 1) {
+      //   return '正式员工'
+      // } else {
+      //   return '临时员工'
+      // }
+      // 枚举数据是一种组织数据的形式，将所有的可能性列举出来
+      const hireType = [
+        { id: 1, value: '正式工' },
+        { id: 2, value: '临时工' }
+      ]
+      const obj = hireType.find(item => item.id === cell)
+      return obj.value
     }
   }
 }
