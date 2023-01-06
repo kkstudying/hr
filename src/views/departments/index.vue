@@ -3,38 +3,60 @@
     <el-card>
       <el-tabs>
         <el-tab-pane label="组织结构">
-          <TreeTools :node-data="companyInfo" />
+          <TreeTools
+            :is-company="true"
+            :node-data="companyInfo"
+            @showAddDialog="addDepts"
+          />
         </el-tab-pane>
 
         <hr>
         <!-- 部门树形结构 -->
         <el-tree
+          :expand-on-click-node="false"
           :data="depts"
           :prop="{label:'name'}"
           default-expand-all
         >
           <!-- 自定义插槽 -->
           <template v-slot="scoped">
-            <TreeTools :node-data="scoped.data" />
+            <TreeTools
+              :is-company="false"
+              :node-data="scoped.data"
+              @showEditDialog="editDepts"
+              @showAddDialog="addDepts"
+              @reloadPage="getDepts"
+            />
           </template>
         </el-tree>
       </el-tabs>
     </el-card>
+    <AddDepts
+      ref="editDialog"
+      :is-show-dialog="isShowDialog"
+      :node-data="nodeData"
+      @reloadPage="getDepts"
+      @closeDialog="isShowDialog=false"
+    />
   </div>
 </template>
 
 <script>
 import { getDepts } from '@/api/departments'
 import TreeTools from './components/tree-tools.vue'
+import AddDepts from './components/add-depts.vue'
 export default {
-  components: { TreeTools },
+  components: { TreeTools, AddDepts },
   data() {
     return {
       companyInfo: {
         name: '传智播客',
-        manager: '负责人'
+        manager: '负责人',
+        id: ''
       },
-      depts: []
+      depts: [],
+      isShowDialog: false,
+      nodeData: {}
     }
   },
   created() {
@@ -55,6 +77,15 @@ export default {
         }
       })
       return res
+    },
+    addDepts(nodeData) {
+      this.isShowDialog = true
+      this.nodeData = nodeData
+    },
+    editDepts(nodeData) {
+      this.nodeData = nodeData
+      this.isShowDialog = true
+      this.$refs.editDialog.getDeptsDetail(nodeData.id)
     }
   }
 }
