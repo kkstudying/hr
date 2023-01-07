@@ -5,7 +5,7 @@
         共111条数据
       </template>
       <template #after>
-        <el-button size="small" type="warning">导入</el-button>
+        <el-button size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
         <el-button size="small" type="danger">导出</el-button>
         <el-button size="small" type="primary">新增员工</el-button>
       </template>
@@ -102,7 +102,11 @@ export default {
       //   { id: 2, value: '临时工' }
       // ]
       // const obj = hireType.find(item => item.id === cell)
-      // return obj.value
+      // if (obj) {
+      //   return obj.value
+      // } else {
+      //   return '其他形式'
+      // }
     }
   }
 }

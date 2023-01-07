@@ -10,6 +10,11 @@ export default {
         title: '员工',
         icon: 'people'
       }
+    },
+    {
+      path: 'import',
+      component: () => import('@/views/employees/import'),
+      hidden: true
     }
   ]
 }

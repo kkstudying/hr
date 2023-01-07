@@ -23,7 +23,8 @@
     "path-to-regexp": "2.4.0",
     "vue": "2.6.10",
     "vue-router": "3.0.6",
-    "vuex": "3.1.0"
+    "vuex": "3.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.4.4",
@@ -52,13 +53,12 @@
   },
   "rules": {
     "generator-star-spacing": "off",
-    "no-tabs":"off",
-    "no-unused-vars":"off",
-    "no-console":"off",
-    "no-irregular-whitespace":"off",
+    "no-tabs": "off",
+    "no-unused-vars": "off",
+    "no-console": "off",
+    "no-irregular-whitespace": "off",
     "no-debugger": "off"
-},
-
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions"
