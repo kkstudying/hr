@@ -6,7 +6,7 @@
       </template>
       <template #after>
         <el-button size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
-        <el-button size="small" type="danger">导出</el-button>
+        <el-button size="small" type="danger" @click="exportToExcel">导出</el-button>
         <el-button size="small" type="primary">新增员工</el-button>
       </template>
     </PageTools>
@@ -59,6 +59,7 @@
 
 <script>
 import { getEmployee } from '@/api/employee'
+import { export_json_to_excel } from '@/utils/Export2Excel'
 export default {
   data() {
     return {
@@ -74,9 +75,24 @@ export default {
     this.loadPage()
   },
   methods: {
+    async exportToExcel() {
+      const res = await getEmployee({ page: 1, size: this.total })
+      console.log('res.row', res.row)
+      const header = ['姓名', '部门', '手机号']
+      const data = res.rows.map(user => {
+        const userArr = []
+        userArr.push(user.username)
+        userArr.push(user.departmentName)
+        userArr.push(user.mobile)
+        return userArr
+      })
+      export_json_to_excel({
+        header,
+        data
+      })
+    },
     async loadPage() {
       const res = await getEmployee(this.pageSetting)
-      console.log(res)
       this.total = res.total
       this.employeeList = res.rows.map(item => {
         return {

@@ -5,12 +5,13 @@
 </template>
 
 <script>
+import { importEmployee } from '@/api/employee'
 export default {
   methods: {
     // 这个函数作为成功的回调传入了子组件
     // 每当上传excel加载完毕时，就能够在这获取到数据data
     // 其中data.header是表头，data.results是结果数组
-    onSuccess(data) {
+    async onSuccess(data) {
       const dict = {
         '入职日期': 'timeOfEntry',
         '手机号': 'mobile',
@@ -33,7 +34,11 @@ export default {
         }
         return newUser
       })
-      console.log(newData)
+
+      // 发送请求批量导入
+      await importEmployee(newData)
+      this.$message.success('导入成功')
+      this.$router.back()
     },
     // 专门处理excel时间问题工具
     formatExcelTime(num, format = '-') {
