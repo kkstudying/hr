@@ -45,3 +45,11 @@ export function addEmployee(data) {
     data
   })
 }
+
+// 删除员工
+export function delEmployee(id) {
+  return request({
+    url: `/sys/user/${id}`,
+    method: 'delete'
+  })
+}

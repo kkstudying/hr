@@ -34,16 +34,16 @@
             />
           </template>
         </el-table-column>
-        <el-table-column label="操作" sortable="" fixed="right" width="280" />
-        <template>
-          <el-button type="text" size="small">查看</el-button>
-          <el-button type="text" size="small">转正</el-button>
-          <el-button type="text" size="small">调岗</el-button>
-          <el-button type="text" size="small">离职</el-button>
-          <el-button type="text" size="small">角色</el-button>
-          <el-button type="text" size="small">删除</el-button>
-        </template>
-      </el-table>
+        <el-table-column label="操作" sortable="" fixed="right" width="280">
+          <template v-slot="scope">
+            <el-button type="text" size="small">查看</el-button>
+            <el-button type="text" size="small">转正</el-button>
+            <el-button type="text" size="small">调岗</el-button>
+            <el-button type="text" size="small">离职</el-button>
+            <el-button type="text" size="small">角色</el-button>
+            <el-button type="text" size="small" @click="delEmployee(scope.row.id)">删除</el-button>
+          </template>
+        </el-table-column></el-table>
       <!-- 分页组件 -->
       <el-row type="flex" justify="center" align="middle" style="height:60px">
         <el-pagination
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { delEmployee } from '@/api/employee'
 import { getEmployee } from '@/api/employee'
 import { export_json_to_excel } from '@/utils/Export2Excel'
 import AddEmployee from './components/add-employee.vue'
@@ -79,6 +80,13 @@ export default {
     this.loadPage()
   },
   methods: {
+    async delEmployee(id) {
+      //  二次询问 发请求 提醒用户  更新页面
+      await this.$confirm('是否确认删除？')
+      await delEmployee(id)
+      this.$message.success('删除成功')
+      this.loadPage()
+    },
     async exportToExcel() {
       const res = await getEmployee({ page: 1, size: this.total })
       console.log('res.row', res.row)

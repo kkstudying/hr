@@ -83,7 +83,7 @@ export default {
           pid: this.nodeData.id
         })
       }
- 
+
       this.$message.success('操作成功')
       //   更新页面
       this.$emit('reloadPage')
