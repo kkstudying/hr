@@ -45,6 +45,7 @@
 import { getDepts } from '@/api/departments'
 import TreeTools from './components/tree-tools.vue'
 import AddDepts from './components/add-depts.vue'
+import { listToTreeData } from '@/utils/index'
 export default {
   components: { TreeTools, AddDepts },
   data() {
@@ -66,17 +67,7 @@ export default {
     async getDepts() {
       const res = await getDepts()
       console.log(res)
-      this.depts = this.listToTreeData(res.depts, '')
-    },
-    listToTreeData(list, id) {
-      const res = []
-      list.forEach(element => {
-        if (element.pid === id) {
-          element.children = this.listToTreeData(list, element.id)
-          res.push(element)
-        }
-      })
-      return res
+      this.depts = listToTreeData(res.depts, '')
     },
     addDepts(nodeData) {
       this.isShowDialog = true

@@ -7,7 +7,7 @@
       <template #after>
         <el-button size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
         <el-button size="small" type="danger" @click="exportToExcel">导出</el-button>
-        <el-button size="small" type="primary">新增员工</el-button>
+        <el-button size="small" type="primary" @click="addEmployee">新增员工</el-button>
       </template>
     </PageTools>
     <el-card>
@@ -54,13 +54,16 @@
         />
       </el-row>
     </el-card>
+    <AddEmployee :is-show-dialog="isShowDialog" />
   </div>
 </template>
 
 <script>
 import { getEmployee } from '@/api/employee'
 import { export_json_to_excel } from '@/utils/Export2Excel'
+import AddEmployee from './components/add-employee.vue'
 export default {
+  components: { AddEmployee },
   data() {
     return {
       pageSetting: {
@@ -68,7 +71,8 @@ export default {
         size: 5
       },
       employeeList: [],
-      total: 0
+      total: 0,
+      isShowDialog: false
     }
   },
   created() {
@@ -78,14 +82,32 @@ export default {
     async exportToExcel() {
       const res = await getEmployee({ page: 1, size: this.total })
       console.log('res.row', res.row)
-      const header = ['姓名', '部门', '手机号']
+      // const header = ['姓名', '部门', '手机号']
+      // const data = res.rows.map(user => {
+      //   const userArr = []
+      //   userArr.push(user.username)
+      //   userArr.push(user.departmentName)
+      //   userArr.push(user.mobile)
+      //   return userArr
+      // })
+
+      const dict = {
+        '入职日期': 'timeOfEntry',
+        '手机号': 'mobile',
+        '姓名': 'username',
+        '转正日期': 'correctionTime',
+        '工号': 'workNumber'
+      }
+      const header = Object.keys(dict)
       const data = res.rows.map(user => {
         const userArr = []
-        userArr.push(user.username)
-        userArr.push(user.departmentName)
-        userArr.push(user.mobile)
+        for (const key in dict) {
+          const newKey = dict[key]
+          userArr.push(user[newKey])
+        }
         return userArr
       })
+
       export_json_to_excel({
         header,
         data
@@ -123,6 +145,9 @@ export default {
       // } else {
       //   return '其他形式'
       // }
+    },
+    addEmployee() {
+      this.isShowDialog = true
     }
   }
 }
