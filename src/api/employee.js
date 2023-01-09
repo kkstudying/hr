@@ -53,3 +53,12 @@ export function delEmployee(id) {
     method: 'delete'
   })
 }
+
+// 根据id保存员工基本信息
+export function saveUserInfoById(data) {
+  return request({
+    url: `/sys/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
