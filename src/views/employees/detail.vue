@@ -14,10 +14,10 @@
           <el-button type="primary" @click="btnOk">确定</el-button>
         </el-tab-pane>
         <el-tab-pane label="个人详情">
-          用户个人详情表单
+          <user-info />
         </el-tab-pane>
         <el-tab-pane label="岗位信息">
-          岗位表单
+          <job-info />
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -27,9 +27,12 @@
 <script>
 import { getUserDetailById } from '@/api/user'
 import { saveUserInfoById } from '@/api/employee'
+import JobInfo from './components/job-info.vue'
+import UserInfo from './components/user-info.vue'
 export default {
-// 如果要在页面中取得动态路由参数，也就是说类似detail/:id之类的数据放在this.$route.params
-// 如果是？a=1&b=2  这种查询字符串则放在this.$route.query里面
+  components: { JobInfo, UserInfo },
+  // 如果要在页面中取得动态路由参数，也就是说类似detail/:id之类的数据放在this.$route.params
+  // 如果是？a=1&b=2  这种查询字符串则放在this.$route.query里面
   data() {
     return {
       userId: this.$route.params.id,
