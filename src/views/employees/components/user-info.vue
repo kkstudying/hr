@@ -1,5 +1,8 @@
 <template>
   <div class="user-info">
+    <el-row type="flex" justify="end">
+      <el-button type="primary" size="small" @click="$router.push(`/employees/print/${userId}?type=personal`)">打印页</el-button>
+    </el-row>
     <!-- 个人信息 -->
     <el-form label-width="220px">
       <!-- 工号 入职时间 -->
@@ -58,7 +61,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
-
+            <ImageUpload ref="userInfoPhoto" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -90,6 +93,7 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <ImageUpload ref="formDataPhoto" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -285,7 +289,7 @@
 <script >
 import EmployeeEnum from '@/constant/employees'
 import { getUserDetailById } from '@/api/user'
-import { saveUserInfoById } from '@/api/employee'
+import { saveUserInfoById, getPersonalDetail, updatePersonal } from '@/api/employee'
 export default {
   data() {
     return {
@@ -359,15 +363,56 @@ export default {
   },
   created() {
     this.getUser()
+    this.getPersonal()
   },
   methods: {
     async saveUser() {
-      await saveUserInfoById(this.userInfo)
-      this.$message.success('修改成功')
+      // 之前保存时，只是拿回表单数据，但是现在有个独立的上传组件
+      // 其中图片地址存在上传组件的fileList里面，修改数据时需要合并
+      const fileList = this.$refs.userInfoPhoto.fileList
+      if (fileList[0] && fileList[0].status !== 'success') {
+        this.$message.error('请等待图片上传完毕')
+        return
+      }
+      await saveUserInfoById({
+        ...this.userInfo,
+        // 如果有图片就提交，没有就给个空字符串
+        staffPhoto: fileList[0] ? fileList[0].url : ''
+      })
+      this.$message.success('基础信息修改成功')
     },
-    savePersonal() {},
+    async savePersonal() {
+      const fileList = this.$refs.formDataPhoto.fileList
+      if (fileList[0] && fileList[0].status !== 'success') {
+        this.$message.error('等待图片上传,稍后重试')
+        return
+      }
+      await updatePersonal({
+        ...this.formData,
+        staffPhoto: fileList[0] ? fileList[0].url : ''
+      })
+      this.$message.success('隐私信息修改成功')
+      console.log('11', this.formData.domicile)
+    },
+    async getPersonal() {
+      this.formData = await getPersonalDetail(this.userId)
+      if (this.formData.staffPhoto) {
+        this.$refs.formDataPhoto.fileList = [
+          { url: this.formData.staffPhoto }
+        ]
+      }
+    },
     async getUser() {
       this.userInfo = await getUserDetailById(this.userId)
+      console.log('userinfo', this.userInfo)
+      // 之前回显表单数据,但是上传组件是独立存在的，以自己的fileList数组界定显示的内容
+      if (this.userInfo.staffPhoto) {
+        this.$refs.userInfoPhoto.fileList = [
+          {
+            url: this.userInfo.staffPhoto
+          }
+        ]
+      }
     }
   }
 }

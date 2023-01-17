@@ -40,7 +40,7 @@
             <el-button type="text" size="small">转正</el-button>
             <el-button type="text" size="small">调岗</el-button>
             <el-button type="text" size="small">离职</el-button>
-            <el-button type="text" size="small">角色</el-button>
+            <el-button type="text" size="small" @click="showRole(scope.row.id)">角色</el-button>
             <el-button type="text" size="small" @click="delEmployee(scope.row.id)">删除</el-button>
           </template>
         </el-table-column></el-table>
@@ -55,6 +55,7 @@
       </el-row>
     </el-card>
     <AddEmployee :is-show-dialog="isShowDialog" />
+    <AssignRole ref="assignRole" :is-show-dialog="isShowRole" />
   </div>
 </template>
 
@@ -63,8 +64,9 @@ import { delEmployee } from '@/api/employee'
 import { getEmployee } from '@/api/employee'
 import { export_json_to_excel } from '@/utils/Export2Excel'
 import AddEmployee from './components/add-employee.vue'
+import AssignRole from './components/assign-role.vue'
 export default {
-  components: { AddEmployee },
+  components: { AddEmployee, AssignRole },
   data() {
     return {
       pageSetting: {
@@ -73,13 +75,19 @@ export default {
       },
       employeeList: [],
       total: 0,
-      isShowDialog: false
+      isShowDialog: false,
+      isShowRole: false
     }
   },
   created() {
     this.loadPage()
   },
   methods: {
+
+    showRole(id) {
+      this.$refs.assignRole.getUserDetail(id)
+      this.isShowRole = true
+    },
     async delEmployee(id) {
       //  二次询问 发请求 提醒用户  更新页面
       await this.$confirm('是否确认删除？')

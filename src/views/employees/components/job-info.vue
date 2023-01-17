@@ -1,5 +1,8 @@
 <template>
   <div class="job-info">
+    <el-row type="flex" justify="end">
+      <el-button type="primary" size="small" @click="$router.push(`/employees/print/${userId}`)">打印页</el-button>
+    </el-row>
     <!-- 基础信息 -->
     <el-form label-width="220px">
       <div class="block">
@@ -160,16 +163,31 @@
 
 <script>
 import EmployeeEnum from '@/constant/employees'
+import { getJobDetail, updateJob, getEmployeeSimple } from '@/api/employee'
 export default {
   data() {
     return {
+      userId: this.$route.params.id,
       EmployeeEnum,
       formData: {},
       depts: {}
     }
   },
+  created() {
+    this.getJob()
+    this.getDepts()
+  },
   methods: {
-    saveJob() {}
+    async saveJob() {
+      await updateJob(this.formData)
+      this.$message.success('修改岗位信息成功')
+    },
+    async getJob() {
+      this.formData = await getJobDetail(this.userId)
+    },
+    async getDepts() {
+      this.depts = await getEmployeeSimple()
+    }
   }
 }
 </script>

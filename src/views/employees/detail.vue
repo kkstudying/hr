@@ -56,6 +56,7 @@ export default {
       ...await getUserDetailById(this.userId),
       password: ''
     }
+    console.log('打印id', this.$route.params.id)
   },
   methods: {
     async btnOk() {

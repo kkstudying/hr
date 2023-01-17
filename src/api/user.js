@@ -19,7 +19,7 @@ export function getProfile() {
 // 根据id获取员工详细信息
 export function getUserDetailById(id) {
   return request({
-    methos: 'get',
-    url: '/sys/user/' + id
+    method: 'get',
+    url: `/sys/user/${id}`
   })
 }
