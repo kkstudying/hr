@@ -20,7 +20,7 @@
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作">
                 <template v-slot="scope">
-                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="success" @click="showPerm(scope.row.id)">分配权限</el-button>
                   <el-button size="small" type="primary" @click="showEdit(scope.row.id)">编辑</el-button>
                   <el-button size="small" type="danger" @click="delRole(scope.row.id)">删除</el-button>
                 </template>
@@ -76,15 +76,38 @@
           <el-button @click="btncancel">取消</el-button>
         </template>
       </el-dialog>
+      <!-- 设置角色权限的弹窗 -->
+      <el-dialog title="分配权限" :visible="isShowPerm" @close="btnCancelPerm">
+        <template #footer>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox
+              v-for="item in permList"
+              :key="item.id"
+              :label="item.id"
+            >
+              {{ item.name }}
+            </el-checkbox>
+          </el-checkbox-group>
+          <el-button type="primary" @click="btnOkPerm">确定</el-button>
+          <el-button @click="btnCancelPerm">取消</el-button>
+        </template>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getCompanyInfo, getRoleList, addRole, getRoleDetail, editRole, delRole } from '@/api/setting'
+import { getCompanyInfo, getRoleList, addRole, getRoleDetail,
+  editRole, delRole, assignPerm } from '@/api/setting'
+import { getPermissionList } from '@/api/permisson'
 export default {
   data() {
     return {
+      roleId: '',
+      isShowPerm: false,
+      // 当前被选中
+      checkList: [],
+      permList: [],
       companyInfo: {},
       pageSetting: {
         page: 1,
@@ -111,8 +134,28 @@ export default {
   async created() {
     this.companyInfo = await getCompanyInfo(this.$store.state.user.userInfo.campany)
     this.loadPage()
+    this.permList = await getPermissionList()
   },
   methods: {
+    async showPerm(id) {
+      const res = await getRoleDetail(id)
+      this.isShowPerm = true
+      this.roleId = id
+      this.checkList = res.permIds
+      console.log('res', res)
+    },
+    async btnOkPerm() {
+      await assignPerm({
+        id: this.roleId,
+        permIds: this.checkList
+      })
+      this.$message.success('修改成功')
+      this.isShowPerm = false
+    },
+    btnCancelPerm() {
+      this.checkList = []
+      this.isShowPerm = false
+    },
     async delRole(id) {
       await this.$confirm('是否确认删除')
       await delRole(id)
