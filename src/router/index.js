@@ -38,7 +38,7 @@ import employeesRouter from './modules/employees'
 import permissionRouter from './modules/permission'
 import salarysRouter from './modules/salarys'
 import socialRouter from './modules/social'
-
+// 所有人必然都可以看的页面路由叫静态路由
 export const constantRoutes = [
   {
     path: '/test',
@@ -67,6 +67,13 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
+
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+// 根据权限才能看的路由，叫动态路由
+const asyncRouters = [
   settingRouter,
   approvalsRouter,
   departmentsRouter,
@@ -74,10 +81,9 @@ export const constantRoutes = [
   permissionRouter,
   attendancesRouter,
   salarysRouter,
-  socialRouter,
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  socialRouter
 ]
+console.log(asyncRouters)
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support

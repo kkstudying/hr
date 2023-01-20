@@ -80,13 +80,18 @@
       <el-dialog title="分配权限" :visible="isShowPerm" @close="btnCancelPerm">
         <template #footer>
           <el-checkbox-group v-model="checkList">
-            <el-checkbox
-              v-for="item in permList"
-              :key="item.id"
-              :label="item.id"
-            >
-              {{ item.name }}
-            </el-checkbox>
+            <!-- 用树形来显示 -->
+            <el-tree :data="permList" default-expand-all>
+              <template v-slot="scope">
+                <el-checkbox
+                  :key="scope.data.id"
+                  :label="scope.data.id"
+                >
+                  {{ scope.data.name }}
+                </el-checkbox>
+              </template>
+            </el-tree>
+
           </el-checkbox-group>
           <el-button type="primary" @click="btnOkPerm">确定</el-button>
           <el-button @click="btnCancelPerm">取消</el-button>
@@ -100,6 +105,7 @@
 import { getCompanyInfo, getRoleList, addRole, getRoleDetail,
   editRole, delRole, assignPerm } from '@/api/setting'
 import { getPermissionList } from '@/api/permisson'
+import { listToTreeData } from '@/utils'
 export default {
   data() {
     return {
@@ -134,7 +140,7 @@ export default {
   async created() {
     this.companyInfo = await getCompanyInfo(this.$store.state.user.userInfo.campany)
     this.loadPage()
-    this.permList = await getPermissionList()
+    this.permList = listToTreeData(await getPermissionList(), '0')
   },
   methods: {
     async showPerm(id) {
