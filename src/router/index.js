@@ -73,7 +73,7 @@ export const constantRoutes = [
 ]
 
 // 根据权限才能看的路由，叫动态路由
-const asyncRouters = [
+export const asyncRouters = [
   settingRouter,
   approvalsRouter,
   departmentsRouter,
