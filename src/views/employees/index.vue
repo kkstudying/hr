@@ -41,7 +41,7 @@
             <el-button type="text" size="small">调岗</el-button>
             <el-button type="text" size="small">离职</el-button>
             <el-button type="text" size="small" @click="showRole(scope.row.id)">角色</el-button>
-            <el-button type="text" size="small" @click="delEmployee(scope.row.id)">删除</el-button>
+            <el-button v-if="checkPermission('delEmployee')" type="text" size="small" @click="delEmployee(scope.row.id)">删除</el-button>
           </template>
         </el-table-column></el-table>
       <!-- 分页组件 -->
@@ -83,7 +83,13 @@ export default {
     this.loadPage()
   },
   methods: {
-
+    // 封装判断是否具有按钮权限的函数
+    // 接收按钮名字，经过判断，返回布尔值
+    checkPermission(pointName) {
+      // 所有第二层 type = 2的权限列表
+      const points = this.$store.state.user.userInfo.roles.points
+      return points.indexOf(pointName) !== -1
+    },
     showRole(id) {
       this.$refs.assignRole.getUserDetail(id)
       this.isShowRole = true
