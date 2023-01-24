@@ -85,11 +85,12 @@ export default {
   methods: {
     // 封装判断是否具有按钮权限的函数
     // 接收按钮名字，经过判断，返回布尔值
-    checkPermission(pointName) {
-      // 所有第二层 type = 2的权限列表
-      const points = this.$store.state.user.userInfo.roles.points
-      return points.indexOf(pointName) !== -1
-    },
+    // 以上的函数在每个有按钮的页面都需要使用，可以用一个混入技术进行处理
+    // checkPermission(pointName) {
+    //   // 所有第二层 type = 2的权限列表
+    //   const points = this.$store.state.user.userInfo.roles.points
+    //   return points.indexOf(pointName) !== -1
+    // },
     showRole(id) {
       this.$refs.assignRole.getUserDetail(id)
       this.isShowRole = true

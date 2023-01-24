@@ -47,6 +47,10 @@ Vue.filter('formatDate', oldVal => {
   return oldVal.split('T')[0]
 })
 
+import myMixin from '@/mixin'
+// 全局混入
+Vue.mixin(myMixin)
+
 // 如果存在一个封装过滤函数的文件
 // import * as MyFilters from '@/filters'
 // console.log(MyFilters)
