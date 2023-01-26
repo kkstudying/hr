@@ -23,6 +23,29 @@ Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 
+// 国际化演示
+import VueI18n from 'vue-i18n'
+// 安装
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+  locale: 'zh',
+  messages: {
+    en: {
+      hello: 'Hello World'
+    },
+    zh: {
+      hello: '你好世界',
+      student: {
+        number: '学号'
+      },
+      worker: {
+        number: '工号'
+      }
+    }
+  }
+})
+Vue.use(ElementUI, { locale })
+
 Vue.config.productionTip = false
 
 // 添加全局自定义指令
@@ -63,5 +86,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })

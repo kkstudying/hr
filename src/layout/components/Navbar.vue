@@ -8,6 +8,8 @@
       <span class="breadBtn">体验版</span>
     </div>
     <div class="right-menu">
+      <div style="color:#fff" class="right-menu-item" @click="$i18n.locale='zh'">中文</div>
+      <div style="color:#fff" class="right-menu-item" @click="$i18n.locale='en'">English</div>
       <ThemePicker class="right-menu-item" />
       <screen-full class="right-menu-item" />
       <el-dropdown class="avatar-container" trigger="click">

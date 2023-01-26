@@ -8,8 +8,9 @@
             <img src="@/assets/common/head.jpg">
           </div>
           <div class="headInfoTip">
-            <p class="firstChild">早安，管理员，祝你开心每一天！</p>
-            <p class="lastChild">早安，管理员，祝你开心每一天！</p>
+            <!-- 只要注入i18n系统，自带两个全局变量 $i18n实例  $t翻译函数 -->
+            <p class="firstChild">{{ $t('hello') }}，祝你开心每一天！</p>
+            <p class="lastChild">{{ $t('student.number') }}，祝你开心每一天！</p>
           </div>
         </div>
         <div class="fr" />
