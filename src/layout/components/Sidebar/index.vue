@@ -33,6 +33,7 @@ export default {
     routes() {
       // 是路由创建时的默认配置
       // return this.$router.options.routes
+      console.log('打印permissio.routes', this.$store.state.permission.routes)
       return this.$store.state.permission.routes
     },
     activeMenu() {

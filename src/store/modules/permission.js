@@ -5,10 +5,8 @@ const state = {
 }
 const mutations = {
   setRoutes(state, routes) {
-    state.routes = {
-      ...constantRoutes,
-      ...routes
-    }
+    state.routes = [...constantRoutes, ...routes]
+    console.log('constantRoutes', state.routes)
   }
 }
 const actions = {

@@ -29,6 +29,8 @@ Vue.use(ElementUI, {
 import VueI18n from 'vue-i18n'
 import elementEn from 'element-ui/lib/locale/lang/en'
 import elementZh from 'element-ui/lib/locale/lang/zh-CN'
+import menuEn from '@/lang/en'
+import menuZh from '@/lang/zh'
 
 // 安装
 Vue.use(VueI18n)
@@ -38,12 +40,13 @@ const i18n = new VueI18n({
     en: {
       hello: 'Hello World',
       confirmDel: 'Are you sure?',
-      ...elementEn
+      ...elementEn,
+      ...menuEn
     },
     zh: {
       hello: '你好世界',
       ...elementZh,
-
+      ...menuZh,
       confirmDel: '你确定吗？',
       student: {
         number: '学号'
