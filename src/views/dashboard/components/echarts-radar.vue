@@ -6,8 +6,15 @@
 </template>
 
 <script>
-// 引入库
-import * as echarts from 'echarts'
+// 引入库全局引入
+// import * as echarts from 'echarts'
+
+// 按需加载
+import * as echarts from 'echarts/core'
+import { RadarChart } from 'echarts/charts'
+import { CanvasRenderer } from 'echarts/renderers'
+echarts.use([RadarChart, CanvasRenderer])
+
 export default {
 // 由于库需要拿到dom操作必须在mounted生命周期执行
   mounted() {
