@@ -95,7 +95,7 @@ export default {
       console.log('permlist', this.permList)
     },
     async delPerm(id) {
-      await this.$confirm('是否确认删除')
+      await this.$confirm('1111')
       await delPermission(id)
       this.$message.success('删除成功')
       this.getPermissionList()
@@ -130,7 +130,7 @@ export default {
       this.isShowDialog = true
     },
     async deletePerm(id) {
-      await this.$confirm('是否确认删除')
+      await this.$confirm(this.$t('confirmDel'))
       await delPermission(id)
       this.$message.success('删除成功')
       this.getPermissionList()

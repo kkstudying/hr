@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="分配权限" :visible="isShowDialog">
+  <el-dialog title="分配权限" :visible="isShowDialog" @close="btnCancel">
     <el-checkbox-group v-model="checkList">
       <el-checkbox
         v-for="item in roleList"
