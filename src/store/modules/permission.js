@@ -19,7 +19,9 @@ const actions = {
     // return asyncRoutes.filter(item => menus.indexOf()) !== -1
 
     const routes = asyncRouters.filter(item => {
+      // 遍历返回true则保留，返回false则扔掉
       return menus.indexOf(item.name) !== -1
+      // return true
     })
     // 如果想要维护一个菜单使用的路由配置
     // 只需要将这些有权限的动态路由加上原来默认就要出现的静态路由即可

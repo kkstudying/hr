@@ -8,6 +8,8 @@
       <span class="breadBtn">体验版</span>
     </div>
     <div class="right-menu">
+      <ThemePicker class="right-menu-item" />
+      <screen-full class="right-menu-item" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img v-fiximg :src="avatar" class="user-avatar">
@@ -116,13 +118,13 @@ export default {
       outline: none;
     }
 
-    .right-menu-item {
+  .right-menu-item {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
       font-size: 18px;
       color: #5a5e66;
-      vertical-align: text-bottom;
+      vertical-align: middle;
 
       &.hover-effect {
         cursor: pointer;
