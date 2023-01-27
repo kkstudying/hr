@@ -56,6 +56,12 @@ module.exports = {
         '@': resolve('src')
       }
     }
+    // externals 可以指定被排除的包，以及替代的 全局变量
+    // externals: {
+    //   'vue': 'Vue',
+    //   'element-ui': 'ELEMENT',
+    //   'xlsx': 'XLSX'
+    // }
   },
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
