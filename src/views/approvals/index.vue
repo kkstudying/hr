@@ -1,5 +1,5 @@
 <template>
-  <div>approvals></div>
+  <div class="app-container">approvals></div>
 </template>
 
 <script>
